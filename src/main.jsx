@@ -10,6 +10,7 @@ import Events from './routes/events.jsx'
 import About from './routes/about.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
+import User from './routes/user.jsx'
 import ErrorPage from "./error-page";
 import './index.css'
 
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
       {
         path: "donate",
         element: <Donate />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: "user",
+        element: <User />,
         errorElement: <ErrorPage />
       },
     ]
