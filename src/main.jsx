@@ -7,7 +7,7 @@ import {
 import Root from './routes/root.jsx'
 import Home from './routes/home.jsx'
 import Events from './routes/events.jsx'
-import About from './routes/about.jsx'
+import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
 import User from './routes/user.jsx'
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
-        path: "about",
-        element: <About />,
+        path: "story",
+        element: <Story />,
         errorElement: <ErrorPage />
       },
       {
