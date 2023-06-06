@@ -1,9 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { AuthProvider } from './authContext'
 import Root from './routes/root.jsx'
 import Home from './routes/home.jsx'
 import Events from './routes/events.jsx'
@@ -11,7 +9,7 @@ import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
 import User from './routes/user.jsx'
-import ErrorPage from "./error-page";
+import ErrorPage from "./error-page"
 import './index.css'
 
 const router = createBrowserRouter([
@@ -61,6 +59,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )

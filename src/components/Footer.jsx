@@ -3,12 +3,13 @@ import { Link } from "react-router-dom"
 export default function Footer() {
     return (
         <footer className="bg-gray-800 text-white py-6 px-4">
-            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                
+            <section className="max-w-7xl mx-auto grid grid-cols-2 gap-6 text-center">
+                <h2 className="text-lg font-bold">Contact Information</h2>
+                <h2 className="text-lg font-bold">Website Directory</h2>
+
                 {/* Contact information */}
                 <address className="space-y-4">
                     <div>
-                        <h2 className="text-lg font-bold">Contact Information</h2>
                         <p>123 Street Name</p>
                         <p>City, State, Zip</p>
                     </div>
@@ -20,7 +21,6 @@ export default function Footer() {
 
                 {/* Website directory */}
                 <nav className="space-y-4">
-                    <h2 className="text-lg font-bold">Website Directory</h2>
                     <ul className="space-y-2">
                         <li><Link to="/home" className="hover:text-blue-400 transition-colors">Home</Link></li>
                         <li><Link to="/events" className="hover:text-blue-400 transition-colors">Events & Activities</Link></li>
@@ -29,7 +29,7 @@ export default function Footer() {
                         <li><Link to="/donate" className="hover:text-blue-400 transition-colors">Donate</Link></li>
                     </ul>
                 </nav>
-            </div>
+            </section>
             
             {/* Copyright notice */}
             <small className="block mt-6 text-center text-gray-400">
