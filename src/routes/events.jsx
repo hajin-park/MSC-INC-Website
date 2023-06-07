@@ -1,7 +1,25 @@
+import { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { Outlet } from 'react-router-dom';
+import CategorySidebar from '../components/CategorySidebar';
+
 export default function Events() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const categoryData = await getDocs(collection(db, 'categories'));
+            setCategories(categoryData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+        };
+
+        fetchCategories();
+    }, []);
+
     return (
-        <section className="w-full h-full bg-slate-100">
-            <h1 className="text-center self-center font-poppins text-slate-900 bg-clip-text text-7xl md:text-9xl font-black py-56">Events & Activities Page</h1>
-        </section>
-    )   
+        <div className="flex">
+            <CategorySidebar categories={categories}/>
+            <Outlet />
+        </div>
+    );
 }

@@ -80,13 +80,13 @@ export default function User() {
         if (showChangePassword) {
             return (
                 <article className="flex pt-64 px-96 justify-evenly h-full bg-slate-100">
-                    <ChangePassword handleChangePassword={changePassword} changePasswordRef={changePasswordRef} verifyChangePasswordRef={verifyChangePasswordRef} changePasswordError={changePasswordError}/>
+                    <ChangePassword handleChangePassword={changePassword} changePasswordRef={changePasswordRef} verifyChangePasswordRef={verifyChangePasswordRef} changePasswordError={changePasswordError} handleBackButton={() => setShowChangePassword(false)}/>
                 </article>
             )
         } else {
             return (
                 <article className="flex pt-64 px-96 justify-evenly h-full bg-slate-100">
-                    <SignOut handleSignOut={signOut} handleChangePassword={() => setShowChangePassword(true)}/>
+                    <SignOut handleSignOut={signOut} handleChangePassword={() => setShowChangePassword(true)} />
                 </article>
             )
         }

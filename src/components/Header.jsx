@@ -13,7 +13,8 @@ export default function Header() {
         { name: 'Events & Activities', to: 'events' },
         { name: 'Our Story', to: 'story' },
         { name: 'Contact', to: 'contact' },
-        { name: 'Donate', to: 'donate' }
+        { name: 'Donate', to: 'donate' },
+        { name: 'Admin', to: 'admin' }
     ];
 
     return (
