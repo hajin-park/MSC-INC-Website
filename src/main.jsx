@@ -8,7 +8,7 @@ import Events from './routes/events.jsx'
 import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
-import User from './routes/user.jsx'
+import UserAuth from './routes/user-auth.jsx'
 import ErrorPage from "./error-page"
 import './index.css'
 
@@ -49,10 +49,10 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
-        path: "user",
-        element: <User />,
+        path: "user-auth",
+        element: <UserAuth />,
         errorElement: <ErrorPage />
-      },
+      }
     ]
   },
 ]);

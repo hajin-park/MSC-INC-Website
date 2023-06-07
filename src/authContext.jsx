@@ -1,5 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import React, { useContext, useEffect, useState, useMemo } from 'react'
+import { 
+    onAuthStateChanged, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    updatePassword,
+    sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from "./firebase.js"
 
 const AuthContext = React.createContext();
@@ -21,7 +27,7 @@ export function AuthProvider({ children }) {
 
     async function signup(email, password) {
         await createUserWithEmailAndPassword(auth, email, password);
-      }
+    }
     
     async function signin(email, password) {
         await signInWithEmailAndPassword(auth, email, password);
@@ -31,12 +37,24 @@ export function AuthProvider({ children }) {
         await signOut(auth);
     }
 
-    const value = {
+    async function changepassword(newPassword) {
+        if (currentUser) {
+            await updatePassword(currentUser, newPassword);
+        }
+    }
+
+    async function forgotpassword(email) {
+        await sendPasswordResetEmail(auth, email);
+    }
+
+    const value = useMemo(() => ({
         currentUser,
         signup,
         signin,
-        signout
-    };
+        signout,
+        changepassword,
+        forgotpassword
+    }), [currentUser]);
 
     return (
         <AuthContext.Provider value={value}>

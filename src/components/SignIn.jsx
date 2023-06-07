@@ -1,4 +1,4 @@
-export default function SignIn({ handleSignIn, signInEmailRef, signInPasswordRef, signInError }) {
+export default function SignIn({ handleSignIn, signInEmailRef, signInPasswordRef, signInError, handleForgotPassword, forgotPasswordMessage }) {
     return (
         <section className="w-fit h-fit">
             <div>
@@ -25,7 +25,15 @@ export default function SignIn({ handleSignIn, signInEmailRef, signInPasswordRef
                     </button>
                 </div>
 
+                <div className="mt-2">
+                    <button type="button" onClick={handleForgotPassword} className="text-sm text-indigo-600 hover:text-indigo-500">
+                        Forgot Password?
+                    </button>
+                </div>
+
                 {signInError && <p className="mt-2 text-center text-md text-red-600">{signInError}</p>}
+                {forgotPasswordMessage && <p className="mt-2 text-center text-md text-red-600">{forgotPasswordMessage}</p>}
+
             </form>
         </section>
     )

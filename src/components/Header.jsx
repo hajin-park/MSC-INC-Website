@@ -19,7 +19,7 @@ export default function Header() {
                         <Link to={`story`} className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-xl font-medium border-gray-400 hover:border-blue-600 transition-all">Our Story</Link>
                         <Link to={`contact`} className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-xl font-medium border-gray-400 hover:border-blue-600 transition-all">Contact</Link>
                         <Link to={`donate`} className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-xl font-medium border-gray-400 hover:border-blue-600 transition-all">Donate</Link>
-                        <Link to={`user`} className="text-gray-900 inline-flex pl-8 items-center px-1 pt-1 border-l-2 text-xl font-medium border-gray-400 hover:text-blue-600 transition-all">{currentUser ? "Account" : "Log In"}</Link>
+                        <Link to={`user-auth`} className="text-gray-900 inline-flex pl-8 items-center px-1 pt-1 border-l-2 text-xl font-medium border-gray-400 hover:text-blue-600 transition-all">{currentUser ? "Account" : "Log In"}</Link>
                     </div>
                 </section>
             </div>

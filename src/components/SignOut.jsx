@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 
 export default function SignIn({ handleSignOut, handleChangePassword }) {
-    const { currentUser, logout } = useAuth();
+    const { currentUser } = useAuth();
 
     return (
         <section className="w-fit h-fit bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
