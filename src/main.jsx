@@ -12,8 +12,10 @@ import Donate from './routes/donate.jsx'
 import UserAuth from './routes/user-auth.jsx'
 import Admin from './routes/admin.jsx'
 import ErrorPage from "./error-page"
-import './index.css'
+import "./index.css" // Do not remove this file
 
+// Route to seven main pages; Home, Events & Activities, Our Story, Contact, Donate, Admin, and User Authentication.
+// Dynamic sub-routes for each Events & Activities category.
 const router = createBrowserRouter([
   {
     path: "/",
@@ -71,6 +73,8 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+// Wrapped app in <AuthProvider> from 'authContext.jsx' for administrative features
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>

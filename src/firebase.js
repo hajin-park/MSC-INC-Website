@@ -1,3 +1,7 @@
+// Firebase Authentication used for administrative features
+// Firebase Storage used for Events & Activities calender image storage
+// Firebase Firestore used for Events & Activities category storage
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";

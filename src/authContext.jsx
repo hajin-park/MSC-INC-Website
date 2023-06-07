@@ -1,3 +1,6 @@
+// Firebase Authentication implemented with email and password signup only.
+// React context sharing user state for administrative features.
+
 import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { 
     onAuthStateChanged, 

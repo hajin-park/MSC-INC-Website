@@ -1,13 +1,11 @@
 import React from 'react';
 import { useAuth } from '../authContext';
-import { useNavigate } from "react-router-dom"
-
 
 export default function SignIn({ handleSignOut, handleChangePassword }) {
     const { currentUser } = useAuth();
 
     return (
-        <section className="w-fit h-fit bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+        <section className="w-fit h-fit bg-custom-background py-6 flex flex-col justify-center sm:py-12">
             <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
                 <div className="flex justify-center items-center space-x-5">
                     <div className="block pl-2 font-semibold text-xl self-start text-gray-700">

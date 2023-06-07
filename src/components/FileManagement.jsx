@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ref, uploadBytes, deleteObject, getDownloadURL, listAll } from 'firebase/storage';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { storage, db } from '../firebase';
+import { TrashIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
 
 export default function FileManagement() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -65,21 +66,29 @@ export default function FileManagement() {
     };
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-4">File Management</h2>
+        <div className="bg-custom-background p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-custom-text">File Management</h2>
             {error && <p className="text-red-500">{error}</p>}
-            <select value={selectedCategory} onChange={handleCategoryChange} className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none">
-                <option value="">Select a category</option>
-                {categories.map(category => (
-                    <option key={category.id} value={category.name}>{category.name}</option>
-                ))}
-            </select>
-            <input type="file" onChange={handleFileChange} className="mt-4" />
-            <button onClick={handleUpload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Upload</button>
+            <div className="flex items-center">
+                <select value={selectedCategory} onChange={handleCategoryChange} className="border-custom-text bg-custom-background h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none flex-grow">
+                    <option value="">Select a category</option>
+                    {categories.map(category => (
+                        <option key={category.id} value={category.name}>{category.name}</option>
+                    ))}
+                </select>
+                <input type="file" onChange={handleFileChange} className="mt-4 ml-4" />
+                <button onClick={handleUpload} className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-custom-background bg-custom-primary hover:bg-custom-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-primary">
+                    <DocumentCheckIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                    Upload
+                </button>
+            </div>
             {files.map((file, index) => (
-                <div key={index}>
-                    <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
-                    <button onClick={() => handleDelete(file.name)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 ml-4">Delete</button>
+                <div key={index} className="flex items-center mt-4">
+                    <a href={file.url} target="_blank" rel="noopener noreferrer" className="text-custom-text flex-grow">{file.name}</a>
+                    <button onClick={() => handleDelete(file.name)} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <TrashIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+                        Delete
+                    </button>
                 </div>
             ))}
         </div>

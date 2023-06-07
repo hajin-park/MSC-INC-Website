@@ -11,6 +11,7 @@ export default function User() {
     const signInPasswordRef = useRef('');
     const signUpEmailRef = useRef('');
     const signUpPasswordRef = useRef('');
+    const verifySignUpPasswordRef = useRef('');
     const changePasswordRef = useRef('');
     const verifyChangePasswordRef = useRef('');
     const [signInError, setSignInError] = useState(null);
@@ -33,11 +34,16 @@ export default function User() {
     
     const signUp = async (event) => {
         event.preventDefault();
-        try {
-            await signup(signUpEmailRef.current.value, signUpPasswordRef.current.value);
-            navigate('/home');
-        } catch (err) {
-            setSignUpError('Error during registration.');
+        if (signUpPasswordRef.current.value !== verifySignUpPasswordRef.current.value) {
+            console.log([signUpPasswordRef, verifySignUpPasswordRef])
+            setSignUpError("Passwords do not match");
+        } else {
+            try {
+                await signup(signUpEmailRef.current.value, signUpPasswordRef.current.value);
+                navigate('/home');
+            } catch (err) {
+                setSignUpError('Error during registration.');
+            }
         }
     }
 
@@ -79,22 +85,22 @@ export default function User() {
     if (currentUser) {
         if (showChangePassword) {
             return (
-                <article className="flex pt-64 px-96 justify-evenly h-full bg-slate-100">
+                <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
                     <ChangePassword handleChangePassword={changePassword} changePasswordRef={changePasswordRef} verifyChangePasswordRef={verifyChangePasswordRef} changePasswordError={changePasswordError} handleBackButton={() => setShowChangePassword(false)}/>
                 </article>
             )
         } else {
             return (
-                <article className="flex pt-64 px-96 justify-evenly h-full bg-slate-100">
+                <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
                     <SignOut handleSignOut={signOut} handleChangePassword={() => setShowChangePassword(true)} />
                 </article>
             )
         }
     } else {
         return (
-            <article className="flex pt-64 px-96 justify-evenly h-full bg-slate-100">
+            <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
                 <SignIn handleSignIn={signIn} signInEmailRef={signInEmailRef} signInPasswordRef={signInPasswordRef} signInError={signInError} handleForgotPassword={forgotPassword} forgotPasswordMessage={forgotPasswordMessage}/>
-                <SignUp handleSignUp={signUp} signUpEmailRef={signUpEmailRef} signUpPasswordRef={signUpPasswordRef} signUpError={signUpError}/>
+                <SignUp handleSignUp={signUp} signUpEmailRef={signUpEmailRef} signUpPasswordRef={signUpPasswordRef} verifySignUpPasswordRef={verifySignUpPasswordRef} signUpError={signUpError}/>
             </article>
         );
     }

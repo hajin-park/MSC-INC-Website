@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { ref, deleteObject, listAll } from 'firebase/storage';
+import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { storage, db } from '../firebase';
 
 export default function CategoryManagement() {
@@ -46,15 +47,23 @@ export default function CategoryManagement() {
     };
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-4">Category Management</h2>
+        <div className="bg-custom-background p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-custom-text">Category Management</h2>
             {error && <p className="text-red-500">{error}</p>}
-            <input type="text" value={categoryName} onChange={handleNameChange} placeholder="Category name" className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none" />
-            <button onClick={handleAdd} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Add Category</button>
+            <div className="flex items-center">
+                <input type="text" value={categoryName} onChange={handleNameChange} placeholder="Category name" className="border-custom-text bg-custom-background h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none flex-grow" />
+                <button onClick={handleAdd} className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-custom-background bg-custom-primary hover:bg-custom-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-primary">
+                    <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                    Add Category
+                </button>
+            </div>
             {categories.map(category => (
-                <div key={category.id}>
-                    <p>{category.name}</p>
-                    <button onClick={() => handleDelete(category.id, category.name)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 ml-4">Delete</button>
+                <div key={category.id} className="flex items-center mt-4">
+                    <p className="text-custom-text flex-grow">{category.name}</p>
+                    <button onClick={() => handleDelete(category.id, category.name)} className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <TrashIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+                        Delete
+                    </button>
                 </div>
             ))}
         </div>

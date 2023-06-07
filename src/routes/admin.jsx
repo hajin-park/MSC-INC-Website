@@ -7,14 +7,16 @@ export default function Admin() {
     const { currentUser } = useAuth();
 
     // Check if the user is an admin
-    if (!currentUser || currentUser.email !== 'hajin1819@gmail.com') {
-        return <p>You do not have permission to view this page.</p>;
-    }
-
     return (
-        <div className="flex gap-8 p-4 justify-evenly w-full h-screen">
-            <FileManagement />
-            <CategoryManagement />
+        <div className="flex gap-8 p-8 justify-evenly w-full h-screen bg-custom-background text-custom-text">
+            {(!currentUser || currentUser.email !== 'hajin1819@gmail.com') ? (
+                <p className="text-center text-xl font-bold">You do not have permission to view this page.</p>
+            ) : (
+                <>
+                    <FileManagement />
+                    <CategoryManagement />
+                </>
+            )}
         </div>
-    );
+    )
 }

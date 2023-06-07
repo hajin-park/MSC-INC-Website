@@ -9,8 +9,12 @@ export default function Events() {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const categoryData = await getDocs(collection(db, 'categories'));
-            setCategories(categoryData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            try {
+                const categoryData = await getDocs(collection(db, 'categories'));
+                setCategories(categoryData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+            } catch (error) {
+                console.error("Error fetching categories: ", error);
+            }
         };
 
         fetchCategories();
