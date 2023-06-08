@@ -37,21 +37,21 @@ export default function Header() {
                 </div>
                 <div className="hidden lg:flex sm:gap-x-4 md:gap-x-12 lg:gap-x-24">
                     {navigation.map((item) => (
-                        <NavLink key={item.name} to={item.to} className="text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                        <NavLink key={item.name} to={item.to} className={({ isActive }) => "text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             {item.name}
                         </NavLink>
                     ))}
                     {currentUser && currentUser.email === "hajin1819@gmail.com" && (
-                        <NavLink key="Admin" to="admin" className="text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                        <NavLink key="Admin" to="admin" className={({ isActive }) => "text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             Admin
                         </NavLink>
                     )}
                     {currentUser ? (
-                        <NavLink key="Account" to="user-auth" className="flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                        <NavLink key="Account" to="user-auth" className={({ isActive }) => "flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             Account <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
                         </NavLink>
                     ) : (
-                        <NavLink key="Log In" to="user-auth" className="flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                        <NavLink key="Log In" to="user-auth" className={({ isActive }) => "flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             Log In <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
                         </NavLink>
                     )}
@@ -81,18 +81,17 @@ export default function Header() {
                                         <NavLink
                                             key={item.name}
                                             to={item.to}
-                                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10"
-                                            activeClassName="text-link"
+                                            className={({ isActive }) => "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" + (isActive ? " text-link" : "")}
                                         >
                                             {item.name}
                                         </NavLink>
                                     ))}
                                     {currentUser ? (
-                                        <NavLink key="Account" to="user-auth" className="-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" activeClassName="text-link">
+                                        <NavLink key="Account" to="user-auth" className={({ isActive }) => "-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" + (isActive ? " text-link" : "")}>
                                             Account <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </NavLink>
                                     ) : (
-                                        <NavLink key="Log In" to="user-auth" className="-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" activeClassName="text-link">
+                                        <NavLink key="Log In" to="user-auth" className={({ isActive }) => "-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" + (isActive ? " text-link" : "")}>
                                             Log In <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </NavLink>
                                     )}
