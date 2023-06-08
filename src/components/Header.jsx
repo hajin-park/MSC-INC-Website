@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../authContext';
 
 export default function Header() {
@@ -13,22 +13,22 @@ export default function Header() {
         { name: 'Events & Activities', to: 'events' },
         { name: 'Our Story', to: 'story' },
         { name: 'Contact', to: 'contact' },
-        { name: 'Donate', to: 'donate' },
-        { name: 'Admin', to: 'admin' }
+        { name: 'Donate', to: 'donate' }
     ];
 
     return (
-        <header className="sticky top-0 z-50 bg-white shadow-md">
+        <header className="sticky top-0 bg-navbar shadow-md">
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <Link to="/" className="-m-1.5 p-1.5 text-3xl font-black text-blue-600 hover:text-blue-800 transition-colors">
+                    {/* Add your logo here */}
+                    <NavLink to="/" className="-m-1.5 p-1.5 text-3xl font-black text-white hover:text-link transition-colors">
                         Merced Senior Citizens Inc.
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className="flex lg:hidden">
                     <button
                         type="button"
-                        className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                        className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-link transition-colors"
                         onClick={() => setMobileMenuOpen(true)}
                     >
                         <span className="sr-only">Open main menu</span>
@@ -37,53 +37,70 @@ export default function Header() {
                 </div>
                 <div className="hidden lg:flex sm:gap-x-4 md:gap-x-12 lg:gap-x-24">
                     {navigation.map((item) => (
-                        <Link key={item.name} to={item.to} className="text-lg font-semibold leading-6 text-gray-900">
+                        <NavLink key={item.name} to={item.to} className="text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
                             {item.name}
-                        </Link>
+                        </NavLink>
                     ))}
-                </div>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link key={currentUser ? "Account" : "Log In"} to="user-auth" className="text-lg font-semibold leading-6 text-gray-900">
-                        {currentUser ? "Account" : "Log In"} <span aria-hidden="true">&rarr;</span>
-                    </Link>
+                    {currentUser && currentUser.email === "hajin1819@gmail.com" && (
+                        <NavLink key="Admin" to="admin" className="text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                            Admin
+                        </NavLink>
+                    )}
+                    {currentUser ? (
+                        <NavLink key="Account" to="user-auth" className="flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                            Account <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        </NavLink>
+                    ) : (
+                        <NavLink key="Log In" to="user-auth" className="flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" activeClassName="text-link">
+                            Log In <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        </NavLink>
+                    )}
                 </div>
             </nav>
             <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <div className="fixed inset-0 z-10" />
-                <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-navbar px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
-                        <Link to="/" className="-m-1.5 p-1.5 text-4xl font-black text-blue-600 hover:text-blue-800 transition-colors">
+                        {/* Add your logo here */}
+                        <NavLink to="/" className="-m-1.5 p-1.5 text-4xl font-black text-white hover:text-link transition-colors">
                             Merced Senior Citizens Inc.
-                        </Link>
+                        </NavLink>
                         <button
                             type="button"
-                            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                            className="-m-2.5 rounded-md p-2.5 text-white"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             <span className="sr-only">Close menu</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
-                    </div>
-                    <div className="mt-6 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
-                                {navigation.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        to={item.to}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                                <Link key={currentUser ? "Account" : "Log In"} to="user-auth" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                    {currentUser ? "Account" : "Log In"} <span aria-hidden="true">&rarr;</span>
-                                </Link>
+                        </div>
+                        <div className="mt-6 flow-root">
+                            <div className="-my-6 divide-y divide-gray-500/10">
+                                <div className="space-y-2 py-6">
+                                    {navigation.map((item) => (
+                                        <NavLink
+                                            key={item.name}
+                                            to={item.to}
+                                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10"
+                                            activeClassName="text-link"
+                                        >
+                                            {item.name}
+                                        </NavLink>
+                                    ))}
+                                    {currentUser ? (
+                                        <NavLink key="Account" to="user-auth" className="-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" activeClassName="text-link">
+                                            Account <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                        </NavLink>
+                                    ) : (
+                                        <NavLink key="Log In" to="user-auth" className="-mx-3 flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" activeClassName="text-link">
+                                            Log In <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                        </NavLink>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Dialog.Panel>
-            </Dialog>
+                    </Dialog.Panel>
+                </Dialog>
         </header>
-    );
-}
+        );
+    }
