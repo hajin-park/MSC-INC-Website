@@ -8,13 +8,13 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDzPXtKlYgWPrPrqwACWabZBiQscZko6uk",
-  authDomain: "msc-demo-c43c7.firebaseapp.com",
-  projectId: "msc-demo-c43c7",
-  storageBucket: "msc-demo-c43c7.appspot.com",
-  messagingSenderId: "971794424262",
-  appId: "1:971794424262:web:b4691059e9595b684912c7",
-  measurementId: "G-V72ZKNSQ1G"
+  apiKey: "AIzaSyCYcKnc0Xzio9wTy0zGYuMPQdtK30I0o-0",
+  authDomain: "merced-seniors.firebaseapp.com",
+  projectId: "merced-seniors",
+  storageBucket: "merced-seniors.appspot.com",
+  messagingSenderId: "559832213498",
+  appId: "1:559832213498:web:c698e5c4c007c54ac42643",
+  measurementId: "G-8Z154T5TMB"
 };
 
 export const app = initializeApp(firebaseConfig);
