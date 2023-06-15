@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
 import { storage } from '../firebase';
 import { TrashIcon } from '@heroicons/react/24/outline';
@@ -13,7 +13,7 @@ export default function HomeManagement() {
     }, []);
 
     const fetchFiles = async () => {
-        const listRef = ref(storage, "homePageGallery");
+        const listRef = ref(storage, "homePage");
         const files = await listAll(listRef);
         const fileURLs = await Promise.all(files.items.map(fileRef => getDownloadURL(fileRef)));
         setFiles(fileURLs.map((url, index) => ({ url, name: files.items[index].name })));
@@ -29,7 +29,7 @@ export default function HomeManagement() {
             if (!selectedFile) throw new Error('No file selected');
 
             setStatus("loading")
-            const fileRef = ref(storage, `homePageGallery/${selectedFile.name}`);
+            const fileRef = ref(storage, `homePage/${selectedFile.name}`);
             await uploadBytes(fileRef, selectedFile);
             setSelectedFile(null); // Reset the selected file
             fetchFiles(); // Fetch the updated list of files
@@ -42,7 +42,7 @@ export default function HomeManagement() {
     const handleDelete = async (fileName) => {
         try {
             setStatus('loading');
-            const fileRef = ref(storage, `homePageGallery/${fileName}`);
+            const fileRef = ref(storage, `homePage/${fileName}`);
             await deleteObject(fileRef);
             fetchFiles(); // Fetch the updated list of files
             setStatus("success")
@@ -75,4 +75,4 @@ export default function HomeManagement() {
             ))}
         </div>
     );
-    };
+}

@@ -21,7 +21,7 @@ export default function Header() {
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     {/* Add your logo here */}
-                    <NavLink to="/" className="-m-1.5 p-1.5 text-3xl font-black text-white hover:text-link transition-colors">
+                    <NavLink to="/" className="-m-1.5 p-1.5 text-5xl font-black text-white hover:text-link transition-colors">
                         Merced Senior Citizens Inc.
                     </NavLink>
                 </div>
@@ -41,20 +41,6 @@ export default function Header() {
                             {item.name}
                         </NavLink>
                     ))}
-                    {currentUser && currentUser.email === "hajin1819@gmail.com" && (
-                        <NavLink key="Admin" to="admin" className={({ isActive }) => "text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
-                            Admin
-                        </NavLink>
-                    )}
-                    {currentUser ? (
-                        <NavLink key="Account" to="user-auth" className={({ isActive }) => "flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
-                            Account <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </NavLink>
-                    ) : (
-                        <NavLink key="Log In" to="user-auth" className={({ isActive }) => "flex text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
-                            Log In <ArrowRightOnRectangleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </NavLink>
-                    )}
                 </div>
             </nav>
             <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
