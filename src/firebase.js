@@ -1,11 +1,11 @@
 // Firebase Authentication used for administrative features
-// Firebase Storage used for Events & Activities calender image storage
-// Firebase Firestore used for Events & Activities category storage
+// Firebase Storage used for calender and home page gallery image storage
+// Firebase Firestore used for dynamic website information storage
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from 'firebase/firestore';
+//import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYcKnc0Xzio9wTy0zGYuMPQdtK30I0o-0",
@@ -18,6 +18,6 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+//export const auth = getAuth(app);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../authContext';
 import AdminPanel from "../components/AdminPanel.jsx"
 import HomeManagement from '../components/HomeManagement';

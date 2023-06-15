@@ -9,13 +9,13 @@ import Events from './routes/events.jsx'
 import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
-import UserAuth from './routes/user-auth.jsx'
+// User authentication feature removed...not wanted by project host
+// import UserAuth from './routes/user-auth.jsx'
 import Admin from './routes/admin.jsx'
 import ErrorPage from "./error-page"
 import "./index.css" // Do not remove this file
 
-// Route to seven main pages; Home, Events & Activities, Our Story, Contact, Donate, Admin, and User Authentication.
-// Dynamic sub-routes for each Events & Activities category.
+// Route to six main pages - Home, Events & Activities, Our Story, Contact, Donate, Admin
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,21 +60,21 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
+        path: "admin",
+        element: <Admin />,
+        errorElement: <ErrorPage />
+      },
+      /*
+      {
         path: "user-auth",
         element: <UserAuth />,
         errorElement: <ErrorPage />
       },
-      {
-        path: "admin",
-        element: <Admin />,
-        errorElement: <ErrorPage />
-      }
+      */
     ]
   },
 ]);
 
-
-// Wrapped app in <AuthProvider> from 'authContext.jsx' for administrative features
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
