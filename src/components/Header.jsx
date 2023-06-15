@@ -17,7 +17,7 @@ export default function Header() {
     ];
 
     return (
-        <header className="sticky top-0 bg-navbar shadow-md">
+        <header className="sticky top-0 bg-navbar shadow-md z-20">
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     {/* Add your logo here */}
