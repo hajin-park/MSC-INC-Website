@@ -33,7 +33,7 @@ export default function HomePageHeaderSection() {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row items-center justify-center h-1/2 bg-gray-200 text-gray-900">
+        <div className="flex flex-col lg:flex-row items-center justify-center h-[48rem] bg-gray-200 text-gray-900">
             <div className="lg:w-1/2 p-10 text-center">
                 <h1 className="text-6xl font-bold">Welcome to Merced Senior Citizens Inc. & Merced Senior Community Center!</h1>
                 <p className="mt-4 text-3xl">Our mission is to provide seniors 50+ with meeting facilities and services specially designed to meet the physical, social and psychological needs and to promote the health, security, happiness, usefulness and longer life of the local senior community.</p>

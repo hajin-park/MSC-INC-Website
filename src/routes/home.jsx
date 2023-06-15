@@ -6,7 +6,7 @@ import HomePageDonateSection from "../components/HomePageDonateSection";
 
 export default function Home() {
     return (
-        <section className="w-full min-h-full">
+        <section className="w-full h-fit">
             <HomePageHeaderSection />
             <HomePageEventSection />
             <HomePageStorySection />

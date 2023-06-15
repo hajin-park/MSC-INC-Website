@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function HomePageContactSection() {
     return (
-        <div className="mx-auto h-1/2 w-full flex items-center justify-center text-center bg-gray-400 text-gray-900 p-10">
+        <div className="mx-auto h-[32rem] w-full flex items-center justify-center text-center bg-gray-400 text-gray-900 p-10">
             <div>
                 <h2 className="text-4xl font-bold tracking-tight">Contact Us</h2>
                 <p className="mt-6 text-lg leading-8">
