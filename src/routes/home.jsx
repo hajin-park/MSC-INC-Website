@@ -6,12 +6,12 @@ import HomePageDonateSection from "../components/HomePageDonateSection";
 
 export default function Home() {
     return (
-        <section className="w-full h-fit">
+        <main className="w-full flex-grow">
             <HomePageHeaderSection />
             <HomePageEventSection />
             <HomePageStorySection />
             <HomePageContactSection />
             <HomePageDonateSection />
-        </section>
+        </main>
     )
 }

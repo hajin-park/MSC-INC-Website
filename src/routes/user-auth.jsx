@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../authContext"
 import SignUp from "../components/SignUp.jsx"
@@ -85,23 +85,23 @@ export default function User() {
     if (currentUser) {
         if (showChangePassword) {
             return (
-                <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
+                <article className="w-full min-h-screen flex-grow flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly bg-custom-background">
                     <ChangePassword handleChangePassword={changePassword} changePasswordRef={changePasswordRef} verifyChangePasswordRef={verifyChangePasswordRef} changePasswordError={changePasswordError} handleBackButton={() => setShowChangePassword(false)}/>
                 </article>
             )
         } else {
             return (
-                <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
+                <article className="w-full min-h-screen flex-grow flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly bg-custom-background">
                     <SignOut handleSignOut={signOut} handleChangePassword={() => setShowChangePassword(true)} />
                 </article>
             )
         }
     } else {
         return (
-            <article className="flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly h-full bg-custom-background">
+            <article className="w-full min-h-screen flex-grow flex pt-16 px-6 md:px-16 lg:px-32 justify-evenly bg-custom-background">
                 <SignIn handleSignIn={signIn} signInEmailRef={signInEmailRef} signInPasswordRef={signInPasswordRef} signInError={signInError} handleForgotPassword={forgotPassword} forgotPasswordMessage={forgotPasswordMessage}/>
                 <SignUp handleSignUp={signUp} signUpEmailRef={signUpEmailRef} signUpPasswordRef={signUpPasswordRef} verifySignUpPasswordRef={verifySignUpPasswordRef} signUpError={signUpError}/>
             </article>
         );
     }
-};
+}

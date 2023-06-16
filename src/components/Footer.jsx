@@ -17,7 +17,7 @@ export default function Footer() {
     }
 
     return (
-        <footer className="absolute w-full bg-footer text-text-light py-6 px-4">
+        <footer className="w-full bg-footer text-text-light py-6 px-4">
             <section className="max-w-7xl mx-auto grid grid-cols-2 gap-6 text-center">
                 <h2 className="text-lg font-bold text-text-light">Contact Information</h2>
                 <h2 className="text-lg font-bold text-text-light">Website Directory</h2>

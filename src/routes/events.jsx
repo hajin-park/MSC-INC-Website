@@ -21,7 +21,7 @@ export default function Events() {
     }, []);
 
     return (
-        <div className="flex">
+        <div className="w-full min-h-full flex-grow flex">
             <CategorySidebar categories={categories}/>
             <Outlet />
         </div>
