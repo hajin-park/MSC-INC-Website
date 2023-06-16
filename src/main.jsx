@@ -9,10 +9,10 @@ import Events from './routes/events.jsx'
 import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
-// User authentication feature removed...not wanted by project host
-// import UserAuth from './routes/user-auth.jsx'
 import Admin from './routes/admin.jsx'
 import ErrorPage from "./error-page"
+// User authentication feature removed...not wanted by project host
+// import UserAuth from './routes/user-auth.jsx'
 import "./index.css" // Do not remove this file
 
 // Route to six main pages - Home, Events & Activities, Our Story, Contact, Donate, Admin

@@ -1,5 +1,4 @@
-// Generic error page
-import { useRouteError } from "react-router-dom";
+import { useRouteError, NavLink } from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -7,13 +6,18 @@ export default function ErrorPage() {
 
   // TODO: Add styling
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
+    <div id="error-page" className="w-screen h-screen flex flex-col gap-y-8 justify-center text-center">
+      <h1 className="font-black text-4xl">Oops!</h1>
+      <p className="font-bold text-2xl">Sorry, an unexpected error has occurred.</p>
+      <p className="font-normal text-lg">
         <i>{error.statusText || error.message}</i>
       </p>
-      {/* TODO: Add link back to home page */}
+      <NavLink
+                to="/home"
+                className="max-w-sm mx-auto rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+            >
+                Return to Home Page
+      </NavLink>
     </div>
   );
 }
