@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { doc, setDoc, updateDoc, deleteField, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -104,7 +104,7 @@ export default function DonateManagement() {
         <div className="mb-4">
           <h2 className="text-gray-700 text-lg font-bold mb-2">Categories:</h2>
           {Object.entries(categories).map(([name, category]) => (
-            <div key={name} className="flex items-center justify-between bg-gray-100 p-2 rounded mb-2">
+            <div key={category} className="flex items-center justify-between bg-gray-100 p-2 rounded mb-2">
               {editing === name ? (
                 <form onSubmit={onSubmitEdit}>
                   <input value={editCategory} onChange={(e) => setEditCategory(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
@@ -134,4 +134,4 @@ export default function DonateManagement() {
         </div>
       </div>
     );
-  };
+  }

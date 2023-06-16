@@ -9,12 +9,11 @@ export default function CategoryDisplay() {
 
     useEffect(() => {
         const fetchFiles = async () => {
-            const listRef = ref(storage, 'files/' + categoryName);
+            const listRef = ref(storage, categoryName);
             const files = await listAll(listRef);
             const fileURLs = await Promise.all(files.items.map(fileRef => getDownloadURL(fileRef)));
             setFiles(fileURLs.map((url, index) => ({ url, name: files.items[index].name })));
         };
-
         fetchFiles();
     }, [categoryName]);
 

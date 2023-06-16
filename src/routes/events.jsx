@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { doc, getDocs, setDoc, onSnapshot } from 'firebase/firestore';
 import { Outlet } from 'react-router-dom';
 import CategorySidebar from '../components/CategorySidebar';
 
@@ -8,16 +8,12 @@ export default function Events() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const categoryData = await getDocs(collection(db, 'categories'));
-                setCategories(categoryData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-            } catch (error) {
-                console.error("Error fetching categories: ", error);
-            }
-        };
-
-        fetchCategories();
+        const docRef = doc(db, 'pages', 'eventCategories');
+        const unsubscribe = onSnapshot(docRef, (doc) => {
+            setCategories(doc.data().categories);
+        });
+        
+        return unsubscribe;
     }, []);
 
     return (
