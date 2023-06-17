@@ -8,7 +8,6 @@ export default function Header() {
     const pathName = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const scrollDir = useDetectScroll({});
-    console.log(pathName.pathname)
     const linkColor = (pathName.pathname == "/home" || pathName.pathname == "/" ? "text-white" : "text-black")
     const navBarColor = (pathName.pathname == "/home" || pathName.pathname == "/" ? "bg-slate-950 " : "bg-slate-50")
 
@@ -55,7 +54,7 @@ export default function Header() {
                 </div>
             </nav>
             <Dialog as="div" className="xl:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-                <Dialog.Panel className="z-30 fixed inset-y-0 right-0 w-full overflow-y-auto bg-navbar px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <Dialog.Panel className="z-30 fixed inset-y-0 right-0 w-full overflow-y-auto bg-slate-950 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
                         <NavLink to="/" className="-m-1.5 p-1.5 text-4xl font-black text-white hover:text-link transition-colors" onClick={() => setMobileMenuOpen(false)}>
                             Merced Senior Citizens Inc.
