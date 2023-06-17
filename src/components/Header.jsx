@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import useDetectScroll, { Direction } from "@smakss/react-scroll-direction";
 
 export default function Header() {
+    const pathName = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const scrollDir = useDetectScroll({});
+    console.log(pathName.pathname)
+    const linkColor = (pathName.pathname == "/home" || pathName.pathname == "/" ? "text-white" : "text-black")
 
     const navigation = [
         { name: 'Home', to: 'home' },
@@ -14,15 +19,26 @@ export default function Header() {
         { name: 'Donate', to: 'donate' }
     ];
 
+    const getScrollDirection = (direction) => {
+        switch (direction) {
+          case Direction.Up:
+            return "bg-transparent";
+          case Direction.Down:
+            return "bg-navbar shadow-md";
+          default:
+            return "bg-transparent";
+        }
+      };
+
     return (
-        <header className="sticky top-0 bg-navbar shadow-md z-20">
+        <header className={`transition-colors duration-300 fixed top-0 left-0 right-0 z-20 ${linkColor} ${getScrollDirection(scrollDir)}`}>
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-                <NavLink to="/" className="-m-1.5 p-1.5 text-5xl font-black text-white hover:text-link transition-colors">
+                <NavLink to="/" className="-m-1.5 p-1.5 text-5xl font-black  hover:text-link transition-colors">
                     Merced Senior Citizens Inc.
                 </NavLink>
                 <button
                     type="button"
-                    className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-link transition-colors"
+                    className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5  hover:text-link transition-colors"
                     onClick={() => setMobileMenuOpen(true)}
                 >
                     <span className="sr-only">Open main menu</span>
@@ -30,7 +46,7 @@ export default function Header() {
                 </button>
                 <div className="hidden px-8 lg:flex sm:gap-x-4 md:gap-x-12 lg:gap-x-24">
                     {navigation.map((item) => (
-                        <NavLink key={item.name} to={item.to} className={({ isActive }) => "text-md lg:text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
+                        <NavLink key={item.name} to={item.to} className={({ isActive }) => "text-md lg:text-lg font-semibold leading-6  hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             {item.name}
                         </NavLink>
                     ))}

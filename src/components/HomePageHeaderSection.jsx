@@ -32,7 +32,7 @@ export default function HomePageHeaderSection() {
     };
 
     return (
-            <div className="relative w-full h-144 p-16 lg:p-40 flex flex-col items-center justify-center text-center bg-gradient-to-b from-black/80 to-black/10 text-white">
+            <div className="relative w-full h-screen sm:h-236 md:h-192 lg:h-236 p-16 lg:p-40 flex flex-col items-center justify-center text-center bg-gradient-to-b from-black/80 to-black/10 text-white">
                 <img src={`${images[currentImage]}`} alt="Homepage Gallery Image" className="absolute w-full h-full object-cover object-center mix-blend-overlay"/>
                 <h1 className="text-2xl lg:text-4xl font-bold">Welcome to Merced Senior Citizens Inc. & Merced Senior Community Center!</h1>
                 <p className="text-xl lg:text-2xl">Our mission is to provide seniors 50+ with meeting facilities and services specially designed to meet the physical, social and psychological needs and to promote the health, security, happiness, usefulness and longer life of the local senior community.</p>

@@ -17,7 +17,7 @@ export default function Events() {
     }, []);
 
     return (
-        <div className="w-full min-h-full flex-grow flex">
+        <div className="w-full min-h-full flex-grow flex pt-24">
             <CategorySidebar categories={categories}/>
             <Outlet />
         </div>
