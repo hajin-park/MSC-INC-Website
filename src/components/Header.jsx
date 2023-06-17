@@ -28,9 +28,9 @@ export default function Header() {
                     <span className="sr-only">Open main menu</span>
                     <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                 </button>
-                <div className="hidden lg:flex sm:gap-x-4 md:gap-x-12 lg:gap-x-24">
+                <div className="hidden px-8 lg:flex sm:gap-x-4 md:gap-x-12 lg:gap-x-24">
                     {navigation.map((item) => (
-                        <NavLink key={item.name} to={item.to} className={({ isActive }) => "text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
+                        <NavLink key={item.name} to={item.to} className={({ isActive }) => "text-md lg:text-lg font-semibold leading-6 text-white hover:text-link transition-colors" + (isActive ? " text-link" : "")}>
                             {item.name}
                         </NavLink>
                     ))}
@@ -39,7 +39,7 @@ export default function Header() {
             <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
                 <Dialog.Panel className="z-30 fixed inset-y-0 right-0 w-full overflow-y-auto bg-navbar px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
-                        <NavLink to="/" className="-m-1.5 p-1.5 text-4xl font-black text-white hover:text-link transition-colors">
+                        <NavLink to="/" className="-m-1.5 p-1.5 text-4xl font-black text-white hover:text-link transition-colors" onClick={() => setMobileMenuOpen(false)}>
                             Merced Senior Citizens Inc.
                         </NavLink>
                         <button
@@ -57,6 +57,7 @@ export default function Header() {
                                 key={item.name}
                                 to={item.to}
                                 className={({ isActive }) => "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50/10" + (isActive ? " text-link" : "")}
+                                onClick={() => setMobileMenuOpen(false)}
                             >
                                 {item.name}
                             </NavLink>

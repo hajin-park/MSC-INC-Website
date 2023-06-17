@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { doc, getDocs, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { Outlet } from 'react-router-dom';
 import CategorySidebar from '../components/CategorySidebar';
 
