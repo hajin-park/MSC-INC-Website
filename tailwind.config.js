@@ -11,10 +11,11 @@ export default {
       colors: {
         'primary': '#0a2239', // dark blue
         'secondary': '#008080', // teal
-        'white': '#ffffff', // white
         'background': '#f5f5f5', // light gray for background
-        'navbar': '#0a2239', // dark blue for navbar
-        'footer': '#0a2239', // dark blue for footer
+        'navbar-light': '#1d1b27', // dark blue for navbar
+        'footer-light': '#1d1b27', // dark blue for footer
+        'navbar-dark': '#1d1b27', // dark blue for navbar
+        'footer-dark': '#1d1b27', // dark blue for footer
         'text-primary': '#0a2239', // dark blue for primary text
         'text-secondary': '#008080', // teal for secondary text
         'text-light': '#ffffff', // white for light text
