@@ -9,7 +9,7 @@ import {
     signOut, 
     updatePassword,
     sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from "./firebase.js"
+import { auth } from "../firebase.js"
 
 const AuthContext = React.createContext();
 
