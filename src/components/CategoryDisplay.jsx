@@ -18,7 +18,7 @@ export default function CategoryDisplay() {
     }, [categoryName]);
 
     return (
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 bg-slate-50">
             <h2 className="text-2xl font-bold mb-4">Files</h2>
             {files.map((file, index) => (
                 <div key={index} className="block py-2 px-4 hover:bg-gray-200">

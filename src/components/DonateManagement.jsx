@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { doc, setDoc, updateDoc, deleteField, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -148,4 +148,4 @@ export default function DonateManagement() {
         </div>
       </div>
     );
-  };
+  }

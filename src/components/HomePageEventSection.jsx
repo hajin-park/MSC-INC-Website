@@ -6,8 +6,7 @@ export default function HomePageEventSection() {
             <div className="w-72 h-full md:w-144 lg:w-192 xl:w-236 mx-auto gap-y-4 flex flex-col items-center justify-center text-center">
                 <h2 className="text-4xl font-bold tracking-tight">Check out our Center!</h2>
                 <p className="text-lg leading-8">
-                    If you are new to our Center and organization and would like to participate in classes, group activities or volunteer simply stop by the Center to pick up a monthly activity schedule, Emergency Contact form and take a tour of our facility at 755 W. 15 th Street Merced, CA 95340. 
-                    The Center hours of operation are Monday through Friday 9:00 am to 3:00 pm. The Center is closed weekends and holidays.
+                    See what events and activites we offer at our Center!
                 </p>
                 <NavLink
                     to="/events"

@@ -6,7 +6,7 @@ export default function HomePageContactSection() {
             <div className="w-72 h-full md:w-144 lg:w-192 xl:w-236 mx-auto gap-y-4 flex flex-col items-center justify-center text-center">
                 <h2 className="text-4xl font-bold tracking-tight">Contact Us</h2>
                 <p className="text-lg leading-8">
-                    If you have any further questions or concerns please contact the Merced Senior Community Center at 209- 385-8803. Thank you for visiting our website and we look forward to your visit!
+                    See how you can get in touch with us!
                 </p>
                 <NavLink
                     to="/contact"
