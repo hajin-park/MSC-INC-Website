@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require("tailwindcss/defaultTheme");
 
 export default {
   content: [
@@ -28,13 +27,22 @@ export default {
         'alert': '#ff0000', // red for alerts
         'success': '#008000', // green for success messages
       },
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
       spacing: {
+        '112': '28rem',
+        '128': '32rem',
         '144': '36rem',
+        '160': '40rem',
+        '176': '44rem',
         '192': '48rem',
-        '236': '60rem',
+        '208': '52rem',
+        '224': '56rem',
+        '240': '60rem',
+        '256': '64rem',
+        '272': '68rem',
+        '288': '72rem',
+      },
+      fontFamily: {
+        rubik: ['Rubik', 'sans-serif']
       },
     },
   },
