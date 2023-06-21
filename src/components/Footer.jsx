@@ -10,9 +10,9 @@ export default function Footer() {
             { name: 'Donate', href: '/donate' },
         ],
         contact: [
-            { name: '123 Street Name, City, State, Zip' },
-            { name: 'Email: contact@msci.org' },
-            { name: 'Phone: +1 123-456-7890' },
+            { name: '755 W. 15th Street, Merced, CA, 95340' },
+            { name: 'Email: email@account.org' },
+            { name: 'Phone: +1 209-385-8803' },
         ],
     }
 

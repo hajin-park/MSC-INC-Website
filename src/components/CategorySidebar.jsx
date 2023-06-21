@@ -22,7 +22,9 @@ export default function CategorySidebar({ categories }) {
             </nav>
             { isEventMainPage && (
                 <section className="w-full h-full text-center text-text-primary">
-                    <p>If you are new to our Center and organization and would like to participate in classes, group activities or volunteer simply stop by the Center to pick up a monthly activity schedule, Emergency Contact form and take a tour of our facility at 755 W. 15 th Street Merced, CA 95340. The Center hours of operation are Monday through Friday 9:00 am to 3:00 pm. The Center is closed weekends and holidays.</p>
+                    <p className="mt-4 2xl:text-2xl xl:text-xl lg:text-lg md:text-md sm:text-md text-md text-center">
+                        If you are new to our Center and organization and would like to participate in classes, group activities or volunteer simply stop by the Center to pick up a monthly activity schedule, Emergency Contact form and take a tour of our facility at 755 W. 15 th Street Merced, CA 95340. The Center hours of operation are Monday through Friday 9:00 am to 3:00 pm. The Center is closed weekends and holidays.
+                    </p>
                 </section>
             )}
         </>
