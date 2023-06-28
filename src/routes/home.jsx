@@ -1,8 +1,8 @@
-import HomePageHeaderSection from "../components/HomePageHeaderSection";
-import HomePageEventSection from "../components/HomePageEventSection";
-import HomePageStorySection from "../components/HomePageStorySection";
-import HomePageContactSection from "../components/HomePageContactSection";
-import HomePageDonateSection from "../components/HomePageDonateSection";
+import HomePageHeaderSection from "../components/HomePage/HomePageHeaderSection";
+import HomePageEventSection from "../components/HomePage/HomePageEventSection";
+import HomePageStorySection from "../components/HomePage/HomePageStorySection";
+import HomePageContactSection from "../components/HomePage/HomePageContactSection";
+import HomePageDonateSection from "../components/HomePage/HomePageDonateSection";
 
 export default function Home() {
     return (

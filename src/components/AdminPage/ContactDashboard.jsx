@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
-export default function ContactManagement() {
+export default function ContactDashboard() {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [street, setStreet] = useState('');
@@ -96,4 +96,4 @@ export default function ContactManagement() {
         </form>
       </div>
     );
-};
+}

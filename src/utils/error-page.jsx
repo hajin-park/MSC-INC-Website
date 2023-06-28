@@ -4,7 +4,6 @@ export default function ErrorPage() {
   const error = useRouteError();
   console.error(error);
 
-  // TODO: Add styling
   return (
     <div id="error-page" className="w-screen h-screen flex flex-col gap-y-8 justify-center text-center">
       <h1 className="font-black text-4xl">Oops!</h1>

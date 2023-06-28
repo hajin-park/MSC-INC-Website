@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { doc, setDoc, updateDoc, deleteField, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
-export default function StoryManagement() {
+export default function StoryDashboard() {
   const [story, setStory] = useState('');
   const [mission, setMission] = useState('');
   const [editing, setEditing] = useState('');

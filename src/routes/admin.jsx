@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import AdminPanel from "../components/AdminPanel.jsx"
-import HomeManagement from '../components/HomeManagement';
-import EventFileManagement from '../components/EventFileManagement';
-import EventCategoryManagement from '../components/EventCategoryManagement';
-import StoryManagement from '../components/StoryManagement';
-import ContactManagement from '../components/ContactManagement';
-import DonateManagement from '../components/DonateManagement';
+import { Outlet } from 'react-router-dom';
+import AdminSidebar from '../components/AdminPage/AdminSidebar';
 
 export default function Admin() {
     const [password, setPassword] = useState("");
@@ -26,26 +21,10 @@ export default function Admin() {
 
     return (
         isAuthenticated ? (
-            <main className="w-full min-h-full flex-grow grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-8 bg-custom-background text-custom-text">
-                <AdminPanel name="Home Page Management">
-                    <HomeManagement />
-                </AdminPanel>
-                <AdminPanel name="Event Calender Management">
-                    <EventFileManagement />         
-                </AdminPanel>
-                <AdminPanel name="Event Category Management">
-                    <EventCategoryManagement />
-                </AdminPanel>
-                <AdminPanel name="Story Page Management">
-                    <StoryManagement />
-                </AdminPanel>
-                <AdminPanel name="Contact Info Management">
-                    <ContactManagement />
-                </AdminPanel> 
-                <AdminPanel name="Donate Link Management">
-                    <DonateManagement />
-                </AdminPanel>
-            </main>
+            <div className="w-full min-h-full flex flex-grow pt-24">
+                <AdminSidebar/>
+                <Outlet />
+            </div>
         ) : (
             <div className="w-full min-h-full flex-grow flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
                 <h2 className="text-center text-3xl font-extrabold text-gray-900">

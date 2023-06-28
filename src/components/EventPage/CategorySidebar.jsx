@@ -6,17 +6,15 @@ export default function CategorySidebar({ categories }) {
 
     return (
         <>
-            <nav className="px-6 w-1/6 min-h-full flex-none flex flex-col gap-y-5 overflow-y-auto border-r border-custom-text bg-slate-100">
+            <nav className="px-6 w-1/6 min-h-full flex-none flex flex-col gap-y-5 overflow-y-auto border-r border-t border-custom-text bg-slate-100">
                 <NavLink to="/events" className="text-2xl text-center font-bold my-8 text-custom-text">
                     Our Events & Activities
                 </NavLink>
-                <ul role="list" className="w-full flex flex-1 flex-col gap-y-7 text-center">
+                <ul role="list" className="w-full flex-grow flex flex-1 flex-col">
                     {Object.entries(categories).map(([name, category]) => (
-                        <li key={category} className="w-full p-4 rounded-md bg-slate-600 hover:bg-slate-300  text-white">
-                            <NavLink to={name} className="group text-xl font-semibold mix-blend-difference">
-                                {name}
-                            </NavLink>
-                        </li>
+                        <NavLink key={category} to={name} className="w-full h-24 p-4 border-t border-custom-text group text-xl font-semibold hover:bg-slate-300 text-black">
+                            {name}
+                        </NavLink>
                     ))}
                 </ul>
             </nav>

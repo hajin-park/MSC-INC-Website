@@ -1,6 +1,6 @@
 export default function Contact() {
     return (
-        <section className="w-full min-h-full flex-grow bg-zinc-50 mt-24 p-8">
+        <section className="w-full min-h-full flex-grow bg-zinc-50 pt-32 p-16">
             <h1 className="2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl sm:text-3xl text-3xl text-center font-rubik tracking-tight">Contact us!</h1>
             <h2 className="mt-8 2xl:text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-lg text-lg text-left font-rubik tracking-tight">Our Location</h2>
             <p className="mt-4 2xl:text-3xl xl:text-2xl lg:text-xl md:text-xl sm:text-lg text-lg">

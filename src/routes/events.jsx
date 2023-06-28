@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Outlet } from 'react-router-dom';
-import CategorySidebar from '../components/CategorySidebar';
+import CategorySidebar from '../components/EventPage/CategorySidebar';
 
 export default function Events() {
     const [categories, setCategories] = useState([]);
@@ -17,7 +17,7 @@ export default function Events() {
     }, []);
 
     return (
-        <div className="w-full min-h-full flex flex-grow pt-24">
+        <div className="w-full min-h-full flex-grow flex bg-zinc-50 pt-32">
             <CategorySidebar categories={categories}/>
             <Outlet />
         </div>
