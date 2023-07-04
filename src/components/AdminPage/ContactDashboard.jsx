@@ -1,99 +1,217 @@
-import { useState, useEffect } from 'react';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { XMarkIcon, PencilIcon, CheckIcon, StopIcon } from '@heroicons/react/24/outline';
+import { doc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-export default function ContactDashboard() {
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [street, setStreet] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [zip, setZip] = useState('');
-    const [status, setStatus] = useState('');
+export default function ContactPageDashboard() {
+  const { register: registerEmail, handleSubmit: handleSubmitEmail } = useForm()
+  const { register: registerPhone, handleSubmit: handleSubmitPhone } = useForm()
+  const { register: registerAddress, handleSubmit: handleSubmitAddress } = useForm()
+  const [emailEntries, setEmailEntries] = useState([]);
+  const [phoneEntries, setPhoneEntries] = useState([]);
+  const [address, setAddress] = useState({});
+  const [editEmail, setEditEmail] = useState(null);
+  const [editPhone, setEditPhone] = useState(null);
 
-    useEffect(() => {
-        const docRef = doc(db, 'pages', 'contactInfo');
-        const unsubscribe = onSnapshot(docRef, (doc) => {
-            const data = doc.data();
-            setEmail(data.email || '');
-            setPhoneNumber(data.phoneNumber || '');
-            if (data.address) {
-                setStreet(data.address.street || '');
-                setCity(data.address.city || '');
-                setState(data.address.state || '');
-                setZip(data.address.zip || '');
-            }
-        });
+  useEffect(() => {
+    const docRef = doc(db, 'pages', 'ContactPage');
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      setEmailEntries(doc.data().emailEntries);
+      setPhoneEntries(doc.data().phoneEntries);
+      setAddress(doc.data().address);
+    });
 
-        return unsubscribe;
-    }, []);
+    return unsubscribe;
+  }, []);
 
-    const updateField = async (field, value) => {
-      try {
-        setStatus('loading');
-        const docRef = doc(db, 'pages', 'contactInfo');
-        await setDoc(docRef, { [field]: value }, { merge: true });
-        setStatus('success');
-      } catch (error) {
-        console.error('Error updating document: ', error);
-        setStatus(error.message);
-      }
-    };
-  
-    const onSubmitEmail = (event) => {
-      event.preventDefault();
-      updateField('email', email);
-    };
-  
-    const onSubmitPhoneNumber = (event) => {
-      event.preventDefault();
-      updateField('phoneNumber', phoneNumber);
-    };
-  
-    const onSubmitAddress = (event) => {
-      event.preventDefault();
-      updateField('address', { street, city, state, zip });
-    };
-  
-    return (
-      <div className="max-w-md mx-auto bg-white p-6 rounded shadow-md">
-        {status === 'loading' && <p className="text-blue-500">Loading...</p>}
-        {status === 'success' && <p className="text-green-500">Contact information updated successfully!</p>}
-        {!['loading', 'success', 'c'].includes(status) && <p className="text-red-500">{status}</p>}
-  
-        <form onSubmit={onSubmitEmail} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-          <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder={email} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-            Update Email
+  const handleEmailSubmit = async (data) => {
+    try {
+      const newEmailEntry = { header: data.header, email: data.email };
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { emailEntries: [...emailEntries, newEmailEntry] });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmailDelete = async (emailEntry) => {
+    try {
+      const newEmailEntries = emailEntries.filter(entry => entry !== emailEntry);
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { emailEntries: newEmailEntries });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmailEditStart = (emailEntry) => {
+    setEditEmail(emailEntry);
+  };
+
+  const handleEmailEditCancel = () => {
+    setEditEmail(null);
+  };
+
+  const handleEmailEditConfirm = async (data) => {
+    try {
+      const updatedEmailEntry = { header: data.header, email: data.email };
+      const newEmailEntries = emailEntries.map(entry => entry === editEmail ? updatedEmailEntry : entry);
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { emailEntries: newEmailEntries });
+      setEditEmail(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePhoneSubmit = async (data) => {
+    try {
+      const newPhoneEntry = { header: data.header, phone: data.phone };
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { phoneEntries: [...phoneEntries, newPhoneEntry] });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePhoneDelete = async (phoneEntry) => {
+    try {
+      const newPhoneEntries = phoneEntries.filter(entry => entry !== phoneEntry);
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { phoneEntries: newPhoneEntries });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePhoneEditStart = (phoneEntry) => {
+    setEditPhone(phoneEntry);
+  };
+
+  const handlePhoneEditCancel = () => {
+    setEditPhone(null);
+  };
+
+  const handlePhoneEditConfirm = async (data) => {
+    try {
+      const updatedPhoneEntry = { header: data.header, phone: data.phone };
+      const newPhoneEntries = phoneEntries.map(entry => entry === editPhone ? updatedPhoneEntry : entry);
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { phoneEntries: newPhoneEntries });
+      setEditPhone(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddressSubmit = async (data) => {
+    try {
+      const newAddress = { street1: data.street1, street2: data.street2, city: data.city, state: data.state, zip: data.zip };
+      const docRef = doc(db, 'pages', 'ContactPage');
+      await updateDoc(docRef, { address: newAddress });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col space-y-8 font-lato">
+      <section>
+        <form onSubmit={handleSubmitEmail(handleEmailSubmit)} className="flex flex-col space-y-4">
+          <input {...registerEmail('header')} type="text" placeholder="Email Header" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerEmail('email', { required: true })} type="email" placeholder="Email" className="border border-gray-300 p-2 rounded-md" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+            <PencilIcon className="h-6 w-6" />
+            <span>Add Email Entry</span>
           </button>
         </form>
-  
-        <form onSubmit={onSubmitPhoneNumber} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-          <input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder={phoneNumber} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-            Update Phone Number
+        {emailEntries.map((entry, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            {editEmail === entry ? (
+              <form onSubmit={handleSubmitEmail(handleEmailEditConfirm)} className="flex items-center space-x-4">
+                <input {...registerEmail('header')} defaultValue={entry.header} className="border border-gray-300 p-2 rounded-md" />
+                <input {...registerEmail('email', { required: true })} defaultValue={entry.email} className="border border-gray-300 p-2 rounded-md" />
+                <button type="submit" className="bg-green-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <CheckIcon className="h-6 w-6" />
+                  <span>Confirm</span>
+                </button>
+                <button onClick={handleEmailEditCancel} className="bg-yellow-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <StopIcon className="h-6 w-6" />
+                  <span>Cancel</span>
+                </button>
+              </form>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <h2 className="font-bold">{entry.header}</h2>
+                <p>{entry.email}</p>
+                <button onClick={() => handleEmailEditStart(entry)} className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <PencilIcon className="h-6 w-6" />
+                  <span>Edit</span>
+                </button>
+                <button onClick={() => handleEmailDelete(entry)} className="bg-red-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <XMarkIcon className="h-6 w-6" />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </section>
+      <section>
+        <form onSubmit={handleSubmitPhone(handlePhoneSubmit)} className="flex flex-col space-y-4">
+          <input {...registerPhone('header')} type="text" placeholder="Phone Header" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerPhone('phone', { required: true })} type="tel" placeholder="Phone Number" className="border border-gray-300 p-2 rounded-md" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+            <PencilIcon className="h-6 w-6" />
+            <span>Add Phone Entry</span>
           </button>
         </form>
-  
-        <form onSubmit={onSubmitAddress} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Street:</label>
-          <input value={street} onChange={(e) => setStreet(e.target.value)} placeholder={street} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-          <label className="block text-gray-700 text-sm font-bold mb-2">City:</label>
-          <input value={city} onChange={(e) => setCity(e.target.value)} placeholder={city} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-          <label className="block text-gray-700 text-sm font-bold mb-2">State:</label>
-          <input value={state} onChange={(e) => setState(e.target.value)} placeholder={state} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-          <label className="block text-gray-700 text-sm font-bold mb-2">Zip:</label>
-          <input value={zip} onChange={(e) => setZip(e.target.value)} placeholder={zip} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-            Update Address
+        {phoneEntries.map((entry, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            {editPhone === entry ? (
+              <form onSubmit={handleSubmitPhone(handlePhoneEditConfirm)} className="flex items-center space-x-4">
+                <input {...registerPhone('header')} defaultValue={entry.header} className="border border-gray-300 p-2 rounded-md" />
+                <input {...registerPhone('phone', { required: true })} defaultValue={entry.phone} className="border border-gray-300 p-2 rounded-md" />
+                <button type="submit" className="bg-green-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <CheckIcon className="h-6 w-6" />
+                  <span>Confirm</span>
+                </button>
+                <button onClick={handlePhoneEditCancel} className="bg-yellow-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <StopIcon className="h-6 w-6" />
+                  <span>Cancel</span>
+                </button>
+              </form>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <h2 className="font-bold">{entry.header}</h2>
+                <p>{entry.phone}</p>
+                <button onClick={() => handlePhoneEditStart(entry)} className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <PencilIcon className="h-6 w-6" />
+                  <span>Edit</span>
+                </button>
+                <button onClick={() => handlePhoneDelete(entry)} className="bg-red-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <XMarkIcon className="h-6 w-6" />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </section>
+      <section>
+        <form onSubmit={handleSubmitAddress(handleAddressSubmit)} className="flex flex-col space-y-4">
+          <input {...registerAddress('street1', { required: true })} defaultValue={address.street1} type="text" placeholder="Street 1" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerAddress('street2')} defaultValue={address.street2} type="text" placeholder="Street 2" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerAddress('city', { required: true })} defaultValue={address.city} type="text" placeholder="City" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerAddress('state', { required: true })} defaultValue={address.state} type="text" placeholder="State" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerAddress('zip', { required: true })} defaultValue={address.zip} type="text" placeholder="Zip Code" className="border border-gray-300 p-2 rounded-md" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+            <PencilIcon className="h-6 w-6" />
+            <span>Update Address</span>
           </button>
         </form>
-      </div>
-    );
+      </section>
+    </div>
+  );
 }

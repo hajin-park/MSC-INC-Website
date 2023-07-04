@@ -42,7 +42,7 @@ export default {
         '288': '72rem',
       },
       fontFamily: {
-        rubik: ['Rubik', 'sans-serif']
+        lato: ['Lato', 'sans-serif']
       },
     },
   },

@@ -1,190 +1,204 @@
-import { useState, useEffect } from 'react';
-import { doc, setDoc, updateDoc, deleteField, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { XMarkIcon, PencilIcon, CheckIcon, StopIcon } from '@heroicons/react/24/outline';
+import { doc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export default function StoryDashboard() {
-  const [story, setStory] = useState('');
-  const [mission, setMission] = useState('');
-  const [editing, setEditing] = useState('');
-  const [editName, setEditName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
-  const [editRole, setEditRole] = useState('');
-  const [newName, setNewName] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [newRole, setNewRole] = useState('');
-  const [members, setMembers] = useState({});
-  const [status, setStatus] = useState('');
+  const { register: registerText, handleSubmit: handleSubmitText } = useForm();
+  const { register: registerPerson, handleSubmit: handleSubmitPerson} = useForm();
+  const [textEntries, setTextEntries] = useState([]);
+  const [peopleEntries, setPeopleEntries] = useState([]);
+  const [editText, setEditText] = useState(null);
+  const [editPerson, setEditPerson] = useState(null);
 
   useEffect(() => {
-    const docRef = doc(db, 'pages', 'aboutUs');
+    const docRef = doc(db, 'pages', 'StoryPage');
     const unsubscribe = onSnapshot(docRef, (doc) => {
-      setMembers(doc.data().members);
-      setStory(doc.data().story);
-      setMission(doc.data().mission);
+      setTextEntries(doc.data().textEntries);
+      setPeopleEntries(doc.data().peopleEntries);
     });
 
     return unsubscribe;
   }, []);
 
-  const updateField = async (field, value) => {
+  const handleTextSubmit = async (data) => {
     try {
-      setStatus('loading');
-      const docRef = doc(db, 'pages', 'aboutUs');
-      await setDoc(docRef, { [field]: value }, { merge: true });
-      setStatus('success');
+      const newTextEntry = { header: data.header, body: data.body };
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { textEntries: [...textEntries, newTextEntry] });
     } catch (error) {
-      console.error('Error updating document: ', error);
-      setStatus('error');
+      console.error(error);
     }
   };
 
-  const onSubmitStory = (event) => {
-    event.preventDefault();
-    updateField('story', story);
-  };
-
-  const onSubmitMission = (event) => {
-    event.preventDefault();
-    updateField('mission', mission);
-  };
-
-  const onSubmitNewMember = async (event) => {
-    event.preventDefault();
-
-    const data = { 
-      [newName]: { email: newEmail, role: newRole }
-    };
-
+  const handleTextDelete = async (textEntry) => {
     try {
-      setStatus('loading');
-      const docRef = doc(db, 'pages', 'aboutUs');
-      await setDoc(docRef, { members: data }, { merge: true });
-      setStatus('success');
-      setNewName('');
-      setNewEmail('');
-      setNewRole('');
+      const newTextEntries = textEntries?.filter(entry => entry !== textEntry);
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { textEntries: newTextEntries });
     } catch (error) {
-      console.error('Error updating document: ', error);
-      setStatus(error.message);
+      console.error(error);
     }
   };
 
-  const onSubmitEditMember = async (event) => {
-    event.preventDefault();
+  const handleTextEditStart = (textEntry) => {
+    setEditText(textEntry);
+  };
 
+  const handleTextEditCancel = () => {
+    setEditText(null);
+  };
+
+  const handleTextEditConfirm = async (data) => {
     try {
-      setStatus('loading');
-      const docRef = doc(db, 'pages', 'aboutUs');
-      if (editName !== editing) {
-        await updateDoc(docRef, {
-          [`members.${editing}`]: deleteField()
-        });
-      }
-      await setDoc(docRef, { members: { [editName]: { email: editEmail, role: editRole } } }, { merge: true });
-      setStatus('success');
-      setEditing('');
+      const updatedTextEntry = { header: data.header, body: data.body };
+      const newTextEntries = textEntries?.map(entry => entry === editText ? updatedTextEntry : entry);
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { textEntries: newTextEntries });
+      setEditText(null);
     } catch (error) {
-      console.error('Error updating document: ', error);
-      setStatus(error.message);
+      console.error(error);
     }
   };
 
-  const onDeleteMember = async (name) => {
+  const handlePersonSubmit = async (data) => {
     try {
-      setStatus('loading');
-      const docRef = doc(db, 'pages', 'aboutUs');
-      await updateDoc(docRef, {
-        [`members.${name}`]: deleteField()
-      });
-      setStatus('success');
+      const newPersonEntry = { type: data.type, name: data.name, contact: data.contact, role: data.role };
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { peopleEntries: [...peopleEntries, newPersonEntry] });
     } catch (error) {
-      console.error('Error deleting member: ', error);
-      setStatus(error.message);
+      console.error(error);
+    }
+  };
+
+  const handlePersonDelete = async (personEntry) => {
+    try {
+      const newPeopleEntries = peopleEntries?.filter(entry => entry !== personEntry);
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { peopleEntries: newPeopleEntries });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePersonEditStart = (personEntry) => {
+    setEditPerson(personEntry);
+  };
+
+  const handlePersonEditCancel = () => {
+    setEditPerson(null);
+  };
+
+  const handlePersonEditConfirm = async (data) => {
+    try {
+      const updatedPersonEntry = { type: data.type, name: data.name, contact: data.contact, role: data.role };
+      const docRef = doc(db, 'pages', 'StoryPage');
+      await updateDoc(docRef, { peopleEntries: [...peopleEntries, updatedPersonEntry] });
+      setEditPerson(null);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow-md">
-      {status === 'loading' && <p className="text-blue-500">Loading...</p>}
-      {status === 'success' && <p className="text-green-500">Our Story page information updated successfully!</p>}
-      {!['loading', 'success', 'c'].includes(status) && <p className="text-red-500">{status}</p>}
-
-      <form onSubmit={onSubmitStory} className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Our Story:</label>
-        <textarea value={story} onChange={(e) => setStory(e.target.value)} placeholder={story} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-          Update Story
-        </button>
-      </form>
-
-      <form onSubmit={onSubmitMission} className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Our Mission:</label>
-        <textarea value={mission} onChange={(e) => setMission(e.target.value)} placeholder={mission} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-          Update Mission
-        </button>
-      </form>
-
-      <form onSubmit={onSubmitNewMember} className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
-        <input value={newName} onChange={(e) => setNewName(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-        <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-        <input value={newEmail} onChange={(e) => setNewEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-
-        <label className="block text-gray-700 text-sm font-bold mb-2">Role:</label>
-        <select value={newRole} onChange={(e) => setNewRole(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          <option value="">Select a role</option>
-          <option value="Board Member">Board Member</option>
-          <option value="Volunteer">Volunteer</option>
-        </select>
-
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-          Add Member
-        </button>
-      </form>
-
-      <div className="mb-4">
-        <h2 className="text-gray-700 text-lg font-bold mb-2">Members:</h2>
-        {Object.entries(members).map(([name, { email, role }]) => (
-          <div key={name} className="flex items-center justify-between bg-gray-100 p-2 rounded mb-2">
-            {editing === name ? (
-              <form onSubmit={onSubmitEditMember}>
-                <input value={editName} onChange={(e) => setEditName(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                <input value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                <select value={editRole} onChange={(e) => setEditRole(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                  <option value="">Select a role</option>
-                  <option value="Board Member">Board Member</option>
-                  <option value="Volunteer">Volunteer</option>
-                </select>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2" type="submit">
-                  Update Member
+    <div className="flex flex-row space-y-8 font-lato">
+      <section>
+        <form onSubmit={handleSubmitText(handleTextSubmit)} className="flex flex-col space-y-4">
+          <input {...registerText('header')} type="text" placeholder="Text Header" className="border border-gray-300 p-2 rounded-md" />
+          <textarea {...registerText('body')} placeholder="Body Text" className="border border-gray-300 p-2 rounded-md" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+            <PencilIcon className="h-6 w-6" />
+            <span>Add Text Entry</span>
+          </button>
+        </form>
+        {textEntries?.map((entry, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            {editText === entry ? (
+              <form onSubmit={handleSubmitText(handleTextEditConfirm)} className="flex items-center space-x-4">
+                <input {...registerText('header')} defaultValue={entry.header} className="border border-gray-300 p-2 rounded-md" />
+                <textarea {...registerText('body')} defaultValue={entry.body} className="border border-gray-300 p-2 rounded-md" />
+                <button type="submit" className="bg-green-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <CheckIcon className="h-6 w-6" />
+                  <span>Confirm</span>
+                </button>
+                <button onClick={handleTextEditCancel} className="bg-yellow-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <StopIcon className="h-6 w-6" />
+                  <span>Cancel</span>
                 </button>
               </form>
             ) : (
-              <div>
-                <h3 className="text-gray-700 font-bold">{name}</h3>
-                <p>{email}</p>
-                <p>{role}</p>
+              <div className="flex items-center space-x-4">
+                <h2 className="font-bold">{entry.header}</h2>
+                <p>{entry.body}</p>
+                <button onClick={() => handleTextEditStart(entry)} className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <PencilIcon className="h-6 w-6" />
+                  <span>Edit</span>
+                </button>
+                <button onClick={() => handleTextDelete(entry)} className="bg-red-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <XMarkIcon className="h-6 w-6" />
+                  <span>Delete</span>
+                </button>
               </div>
             )}
-            <div>
-              {editing === name ? (
-                <button onClick={() => setEditing('')} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2">
-                  Cancel
-                </button>
-              ) : (
-                <button onClick={() => { setEditing(name); setEditName(name); setEditEmail(email); setEditRole(role); }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2">
-                  Edit
-                </button>
-              )}
-              <button onClick={() => onDeleteMember(name)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">
-                Delete
-              </button>
-            </div>
           </div>
         ))}
-      </div>
+      </section>
+      <section>
+        <form onSubmit={handleSubmitPerson(handlePersonSubmit)} className="flex flex-col space-y-4">
+          <select {...registerPerson('type', { required: true })} className="border border-gray-300 p-2 rounded-md">
+            <option value="">Select Type</option>
+            <option value="Board Member">Board Member</option>
+            <option value="Staff">Staff</option>
+            <option value="Volunteer">Volunteer</option>
+          </select>
+          <input {...registerPerson('name')} type="text" placeholder="Name" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerPerson('contact')} type="text" placeholder="Contact Info" className="border border-gray-300 p-2 rounded-md" />
+          <input {...registerPerson('role', { required: true })} type="text" placeholder="Role" className="border border-gray-300 p-2 rounded-md" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+            <PencilIcon className="h-6 w-6" />
+            <span>Add Person</span>
+          </button>
+        </form>
+        {peopleEntries?.map((entry, index) => (
+          <div key={index} className="flex items-center space-x-4">
+            {editPerson === entry ? (
+              <form onSubmit={handleSubmitPerson(handlePersonEditConfirm)} className="flex items-center space-x-4">
+                <select {...registerPerson('type', { required: true })} defaultValue={entry.type} className="border border-gray-300 p-2 rounded-md">
+                  <option value="Board Member">Board Member</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Volunteer">Volunteer</option>
+                </select>
+                <input {...registerPerson('name')} defaultValue={entry.name} className="border border-gray-300 p-2 rounded-md" />
+                <input {...registerPerson('contact')} defaultValue={entry.contact} className="border border-gray-300 p-2 rounded-md" />
+                <input {...registerPerson('role', { required: true })} defaultValue={entry.role} className="border border-gray-300 p-2 rounded-md" />
+                <button type="submit" className="bg-green-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <CheckIcon className="h-6 w-6" />
+                  <span>Confirm</span>
+                </button>
+                <button onClick={() => handlePersonEditCancel()} className="bg-yellow-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <StopIcon className="h-6 w-6" />
+                  <span>Cancel</span>
+                </button>
+              </form>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <h2 className="font-bold">{entry.name}</h2>
+                <p>{entry.contact}</p>
+                <p>{entry.role}</p>
+                <button onClick={() => handlePersonEditStart(entry)} className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <PencilIcon className="h-6 w-6" />
+                  <span>Edit</span>
+                </button>
+                <button onClick={() => handlePersonDelete(entry)} className="bg-red-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <XMarkIcon className="h-6 w-6" />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </section>
     </div>
   );
 }

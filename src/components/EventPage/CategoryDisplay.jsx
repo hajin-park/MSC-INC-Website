@@ -23,7 +23,6 @@ export default function CategoryDisplay() {
             {files.map((file, index) => (
                 <div key={index} className="block py-2 px-4 hover:bg-gray-200">
                     <img src={file.url} alt={file.name} />
-                    <p>{file.name}</p>
                 </div>
             ))}
         </div>

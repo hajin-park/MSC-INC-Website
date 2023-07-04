@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { AuthProvider } from './utils/authContext'
+import { AuthProvider } from './utils/authContext.jsx'
+import ErrorPage from "./utils/error-page"
 import HomeDashboard from './components/AdminPage/HomeDashboard.jsx'
 import EventDashboard from './components/AdminPage/EventDashboard.jsx'
 import StoryDashboard from './components/AdminPage/StoryDashboard.jsx'
 import ContactDashboard from './components/AdminPage/ContactDashboard.jsx'
 import DonateDashboard from './components/AdminPage/DonateDashboard.jsx'
-import FooterDashboard from './components/AdminPage/FooterDashboard.jsx'
 import CategoryDisplay from './components/EventPage/CategoryDisplay.jsx'
 import Root from './routes/root.jsx'
 import Home from './routes/home.jsx'
@@ -15,8 +15,8 @@ import Events from './routes/events.jsx'
 import Story from './routes/story.jsx'
 import Contact from './routes/contact.jsx'
 import Donate from './routes/donate.jsx'
+import ChangePassword from './routes/changepassword.jsx'
 import Admin from './routes/admin.jsx'
-import ErrorPage from "./utils/error-page"
 import "./index.css" // Do not remove this file
 
 const router = createBrowserRouter([
@@ -93,10 +93,10 @@ const router = createBrowserRouter([
             errorElement: <ErrorPage />
           },
           {
-            path: "footer",
-            element: <FooterDashboard />,
+            path: "change-passowrd",
+            element: <ChangePassword />,
             errorElement: <ErrorPage />
-          },
+          }
         ]
       }
     ]

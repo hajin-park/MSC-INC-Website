@@ -1,19 +1,32 @@
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase';
 
-export default function CategorySidebar({ categories }) {
+export default function CategorySidebar() {
+    const [categories, setCategories] = useState([])
     const pathName = useLocation();
     const isEventMainPage = pathName.pathname == "/events"
 
+    useEffect(() => {
+        const docRef = doc(db, 'pages', 'EventPage');
+        const unsubscribe = onSnapshot(docRef, (doc) => {
+            setCategories(doc.data().categories);
+        });
+
+        return unsubscribe;
+    }, []);
+
     return (
         <>
-            <nav className="px-6 w-1/6 min-h-full flex-none flex flex-col gap-y-5 overflow-y-auto border-r border-t border-custom-text bg-slate-100">
+            <nav className="px-6 lg:w-1/6 w-full min-h-full flex-none flex flex-col gap-y-5 overflow-y-auto border-r border-t border-custom-text bg-slate-100">
                 <NavLink to="/events" className="text-2xl text-center font-bold my-8 text-custom-text">
                     Our Events & Activities
                 </NavLink>
                 <ul role="list" className="w-full flex-grow flex flex-1 flex-col">
-                    {Object.entries(categories).map(([name, category]) => (
-                        <NavLink key={category} to={name} className="w-full h-24 p-4 border-t border-custom-text group text-xl font-semibold hover:bg-slate-300 text-black">
-                            {name}
+                    {categories.map(category => (
+                        <NavLink key={crypto.randomUUID()} to={category.name} className="w-full h-24 p-4 border-t border-custom-text group text-xl font-semibold hover:bg-slate-300 text-black">
+                            {category.name}
                         </NavLink>
                     ))}
                 </ul>

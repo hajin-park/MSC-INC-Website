@@ -17,12 +17,12 @@ export default function EventDashboard() {
     formState: { errors: errorsFile } 
   } = useForm();
   const [categoryData, setCategoryData] = useState([]);
-  const [categorySelected, setCategorySelected] = useState(null);
+  const [categorySelected, setCategorySelected] = useState('');
   const [categoryStatus, setCategoryStatus] = useState('');
   const [fileData, setFileData] = useState([]);
-  const [fileSelected, setFileSelected] = useState(null);
+  const [fileSelected, setFileSelected] = useState('');
   const [fileStatus, setFileStatus] = useState('');
-  const [editCategory, setEditCategory] = useState(null);
+  const [editCategory, setEditCategory] = useState('');
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
 
@@ -104,8 +104,6 @@ export default function EventDashboard() {
     try {
       setCategoryStatus('Deleting...');
       const docRef = doc(db, 'pages', 'EventPage');
-
-
       const listRef = ref(storage, category.name)
       const files = await listAll(listRef)
       const fileNames = files?.items.map(item => item.name)
@@ -131,12 +129,26 @@ export default function EventDashboard() {
 
   const handleCategoryEditConfirm = async () => {
     const newCategory = { name: editName, description: editDescription };
-    const newCategories = categoryData.map(c => c.name === editCategory.name? newCategory : c);
+    const newCategories = categoryData.map(c => c.name === editCategory.name ? newCategory : c);
 
     try {
       setCategoryStatus('Updating...')
+
+      // Update Firestore category entries
       const docRef = doc(db, 'pages', 'EventPage')
       await updateDoc(docRef, { categories: newCategories });
+
+      // Move category files in Storage to updated category name folder
+      if (editName !== editCategory.name) {
+        const storageRef = ref(storage, editCategory.name)
+        const files = await listAll(storageRef)
+        const fileNames = files?.items.map(item => item.name)
+        const oldStorageRefs = fileNames.map(file => ref(storage, `${editCategory.name}/${file}`))
+        const newStorageRefs = fileNames.map(file => ref(storage, `${editName}/${file}`))
+        await Promise.all(oldStorageRefs.map(ref => deleteObject(ref)))
+        await Promise.all(newStorageRefs.map((ref, index) => uploadBytes(ref, fileNames[index])))
+      }
+
       handleCategoryEditCancel();
       setCategoryStatus('Update Successful!')
     } catch (error) {
@@ -145,11 +157,11 @@ export default function EventDashboard() {
   }
 
   return (
-    <div className="flex w-full h-screen m-8">
-        <section className="w-full min-h-screen p-8">
+    <div className="flex md:flex-row flex-col w-full h-screen m-8 font-lato">
+        <section className="w-full min-h-screen p-8 flex flex-col">
           {errorsCategory.name && <span className="text-red-500 font-bold">This field is required</span>}
           {categoryStatus && <span className="text-red-500 font-bold">{categoryStatus}</span>}
-          <form onSubmit={handleSubmitCategory(handleCategorySubmit)} className="w-full h-fit flex space-x-2">
+          <form onSubmit={handleSubmitCategory(handleCategorySubmit)} className="w-full h-fit flex md:space-x-2 space-y-2 md:flex-row flex-col">
                 <input {...registerCategory('name', { required: true })} type="text" placeholder="Category Name" className="py-2 px-4 border border-gray-300 rounded-md"/>
                 <input {...registerCategory('description')} type="text" placeholder="Category Description" className="py-2 px-4 border border-gray-300 rounded-md"/>
                 <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded-md flex items-center space-x-1">
@@ -158,12 +170,22 @@ export default function EventDashboard() {
                 </button>
             </form>
             <div className="mt-4 grid grid-cols-1 gap-4">
-                {categoryData.map((category) => (
-                    <div key={crypto.randomUUID()} className="flex items-center space-x-2">
+                {categoryData.map((category, index) => (
+                    <div key={index} className="flex items-center space-x-2">
                         {editCategory === category ? (
                             <>
-                                <input value={editName} onChange={(e) => setEditName(e.target.value)} className="py-2 px-4 border border-gray-300 rounded-md"/>
-                                <input value={editDescription} onChange={(e) => setEditDescription(e.target.value)} className="py-2 px-4 border border-gray-300 rounded-md"/>
+                                <input
+                                  type="text"
+                                  value={editName}
+                                  placeholder={category.name}
+                                  onChange={(e) => setEditName(e.target.value)}
+                                  className="py-2 px-4 border border-gray-300 rounded-md"/>
+                                <input
+                                  type="text"
+                                  value={editDescription}
+                                  placeholder={category.description}
+                                  onChange={(e) => setEditDescription(e.target.value)}
+                                  className="py-2 px-4 border border-gray-300 rounded-md"/>
                                 <button onClick={handleCategoryEditConfirm} className="py-1 px-2 bg-green-500 text-white rounded-md flex items-center space-x-1">
                                 <CheckIcon className="h-5 w-5"/>
                                 <span>Confirm</span>
@@ -196,7 +218,7 @@ export default function EventDashboard() {
             {errorsFile.file && <span className="text-red-500 font-bold">This field is required</span>}
             {fileStatus && <span className="text-red-500 font-bold">{fileStatus}</span>}
             <form onSubmit={handleSubmitFile(handleFileSubmit)} className="w-full h-fit flex space-x-2">
-                <select {...registerFile('category', { required: true })} onChange={handleCategoryChange} className="px-8 border border-gray-300 rounded-md">
+                <select {...registerFile('category', { required: true })} onChange={handleCategoryChange} value={categorySelected} className="px-8 border border-gray-300 rounded-md">
                     <option value="">Select Category</option>
                     {categoryData.map((category) => (
                         <option key={crypto.randomUUID()} value={category.name}>{category.name}</option>
